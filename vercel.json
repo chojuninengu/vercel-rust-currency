@@ -9,5 +9,6 @@
         "RUSTUP_HOME": "/tmp/rustup",
         "CARGO_HOME": "/tmp/cargo"
       }
-    }
+    },
+    "buildCommand": "./build.sh"
   }
