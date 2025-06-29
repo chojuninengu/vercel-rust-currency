@@ -3,5 +3,11 @@
       "api/**/*.rs": {
         "runtime": "vercel-rust@4.0.9"
       }
+    },
+    "build": {
+      "env": {
+        "RUSTUP_HOME": "/tmp/rustup",
+        "CARGO_HOME": "/tmp/cargo"
+      }
     }
   }
