@@ -2,13 +2,12 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/**/*.rs",
-      "use": "@vercel/static"
+      "src": "api/index.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
-    { "src": "/api/currencies", "dest": "/api/currencies.rs" },
-    { "src": "/api/convert", "dest": "/api/convert.rs" }
+    { "src": "/api/(.*)", "dest": "/api/index.js" }
   ],
   "env": {
     "EXCHANGE_RATE_API_KEY": "7ed63c331cfb0a7ef831a95a"
