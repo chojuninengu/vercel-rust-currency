@@ -2,6 +2,7 @@ use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::future_to_promise;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use gloo_net::http::Request;
 
 #[wasm_bindgen]
 pub struct CurrencyConverter {
@@ -46,7 +47,8 @@ impl CurrencyConverter {
                 "https://v6.exchangerate-api.com/v6/{}/latest/USD",
                 api_key
             );
-            let response = reqwest::get(&url)
+            let response = Request::get(&url)
+                .send()
                 .await
                 .map_err(|e| JsValue::from_str(&e.to_string()))?;
             let rates: ExchangeRates = response
@@ -67,7 +69,8 @@ impl CurrencyConverter {
                 "https://v6.exchangerate-api.com/v6/{}/latest/{}",
                 api_key, from
             );
-            let response = reqwest::get(&url)
+            let response = Request::get(&url)
+                .send()
                 .await
                 .map_err(|e| JsValue::from_str(&e.to_string()))?;
             let rates: ExchangeRates = response
