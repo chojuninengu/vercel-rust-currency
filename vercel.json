@@ -7,9 +7,14 @@
     }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/index.js" }
+    { 
+      "src": "/api/(.*)", 
+      "dest": "/api/index.js",
+      "continue": true
+    }
   ],
   "env": {
     "EXCHANGE_RATE_API_KEY": "7ed63c331cfb0a7ef831a95a"
-  }
+  },
+  "public": true
 }
