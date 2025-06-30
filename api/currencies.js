@@ -1,5 +1,13 @@
+const fetch = require('node-fetch');
+
 module.exports = async (req, res) => {
-  const API_KEY = '7ed63c331cfb0a7ef831a95a';
+  const API_KEY = process.env.EXCHANGE_RATE_API_KEY;
+  
+  if (!API_KEY) {
+    res.status(500).json({ error: 'API key not configured' });
+    return;
+  }
+
   const url = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/USD`;
 
   try {
