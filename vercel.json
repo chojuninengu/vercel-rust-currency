@@ -1,13 +1,9 @@
 {
   "version": 2,
+  "builds": [
+    { "src": "api/*.js", "use": "@vercel/node" }
+  ],
   "routes": [
-    {
-      "src": "/api/currencies",
-      "dest": "/api/edge/currencies"
-    },
-    {
-      "src": "/api/convert",
-      "dest": "/api/edge/convert"
-    }
+    { "src": "/api/(.*)", "dest": "/api/$1" }
   ]
 }
