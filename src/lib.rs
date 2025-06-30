@@ -3,6 +3,7 @@ use wasm_bindgen_futures::future_to_promise;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use gloo_net::http::Request;
+use gloo_utils::format::JsValueSerdeExt;
 
 #[wasm_bindgen]
 pub struct CurrencyConverter {
