@@ -2,19 +2,12 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/index.js",
-      "use": "@vercel/node"
+      "src": "index.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
-    { 
-      "src": "/api/(.*)", 
-      "dest": "/api/index.js",
-      "continue": true
-    }
+    { "src": "/(.*)", "dest": "/index.html" }
   ],
-  "env": {
-    "EXCHANGE_RATE_API_KEY": "7ed63c331cfb0a7ef831a95a"
-  },
   "public": true
 }
