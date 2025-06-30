@@ -10,50 +10,44 @@
             await init();
             window.converter = new CurrencyConverter('7ed63c331cfb0a7ef831a95a');
 
-            // Handle /api/currencies endpoint
-            if (window.location.pathname === '/api/currencies') {
+            const path = window.location.pathname;
+            const searchParams = new URLSearchParams(window.location.search);
+
+            if (path === '/api/currencies') {
                 try {
                     const currencies = await window.converter.list_currencies();
                     document.body.textContent = JSON.stringify(currencies);
                 } catch (error) {
                     document.body.textContent = JSON.stringify({ error: error.message });
                 }
-            }
-            // Handle /api/convert endpoint
-            else if (window.location.pathname === '/api/convert') {
-                const params = new URLSearchParams(window.location.search);
-                const from = params.get('from');
-                const to = params.get('to');
-                const amount = parseFloat(params.get('amount'));
-
-                if (!from || !to || isNaN(amount)) {
-                    document.body.textContent = JSON.stringify({
-                        error: 'Missing or invalid parameters. Required: from, to, amount'
-                    });
-                    return;
-                }
-
+            } else if (path === '/api/convert') {
                 try {
+                    const from = searchParams.get('from');
+                    const to = searchParams.get('to');
+                    const amount = parseFloat(searchParams.get('amount'));
+
+                    if (!from || !to || !amount) {
+                        throw new Error('Missing required parameters: from, to, amount');
+                    }
+
                     const result = await window.converter.convert(from, to, amount);
                     document.body.textContent = JSON.stringify(result);
                 } catch (error) {
                     document.body.textContent = JSON.stringify({ error: error.message });
                 }
-            }
-            // Show API documentation
-            else {
+            } else {
                 document.body.innerHTML = `
-                <h1>Currency Converter API</h1>
-                <h2>Endpoints:</h2>
-                <ul>
-                    <li><code>/api/currencies</code> - List all available currencies</li>
-                    <li><code>/api/convert?from=USD&to=EUR&amount=100</code> - Convert between currencies</li>
-                </ul>
+                    <h1>Currency Converter API</h1>
+                    <p>Available endpoints:</p>
+                    <ul>
+                        <li><code>/api/currencies</code> - List available currencies</li>
+                        <li><code>/api/convert?from=USD&to=EUR&amount=100</code> - Convert currencies</li>
+                    </ul>
                 `;
             }
         }
 
-        run();
+        run().catch(console.error);
     </script>
 </head>
 <body>
