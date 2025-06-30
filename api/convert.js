@@ -1,78 +1,41 @@
-export const config = {
-  runtime: 'edge',
-};
-
-export default async function handler(req) {
+module.exports = async (req, res) => {
   const API_KEY = '7ed63c331cfb0a7ef831a95a';
-  const url = new URL(req.url);
-  const from = url.searchParams.get('from');
-  const to = url.searchParams.get('to');
-  const amount = parseFloat(url.searchParams.get('amount'));
+  const { from, to, amount } = req.query;
 
-  if (!from || !to || isNaN(amount)) {
-    return new Response(
-      JSON.stringify({
-        error: 'Missing or invalid parameters. Required: from, to, amount',
-      }),
-      {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
-      }
-    );
+  if (!from || !to || !amount) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.status(400).json({ error: 'Missing required parameters' });
+    return;
   }
 
+  const url = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/${from}`;
+
   try {
-    const response = await fetch(
-      `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/${from}`
-    );
+    const response = await fetch(url);
     const data = await response.json();
     const rate = data.conversion_rates[to];
 
     if (!rate) {
-      return new Response(
-        JSON.stringify({ error: 'Target currency not found' }),
-        {
-          status: 400,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-          },
-        }
-      );
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.status(400).json({ error: 'Invalid currency code' });
+      return;
     }
 
-    const result = amount * rate;
-    const timestamp = new Date().toISOString();
+    const result = {
+      from,
+      to,
+      amount: parseFloat(amount),
+      result: parseFloat(amount) * rate,
+      rate,
+      timestamp: new Date().toISOString(),
+    };
 
-    return new Response(
-      JSON.stringify({
-        from,
-        to,
-        amount,
-        result,
-        rate,
-        timestamp,
-      }),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type',
-        },
-      }
-    );
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.status(200).json(result);
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
-    });
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.status(500).json({ error: error.message });
   }
-} 
+}; 
