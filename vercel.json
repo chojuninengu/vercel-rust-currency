@@ -1,29 +1,13 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "pkg/**/*",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
-    }
-  ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Accept"
-      },
-      "dest": "/index.html"
+      "src": "/api/currencies",
+      "dest": "/api/edge/currencies"
     },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "src": "/api/convert",
+      "dest": "/api/edge/convert"
     }
-  ],
-  "public": true
+  ]
 }
