@@ -6,18 +6,10 @@
       }
     },
     "routes": [
-      { "src": "/api/currencies", "dest": "/api/currencies" },
-      { "src": "/api/convert", "dest": "/api/convert" }
+      { "src": "/api/currencies", "dest": "/api/currencies.rs" },
+      { "src": "/api/convert", "dest": "/api/convert.rs" }
     ],
     "env": {
-      "RUSTUP_HOME": "/tmp/rustup",
-      "CARGO_HOME": "/tmp/cargo"
-    },
-    "build": {
-      "env": {
-        "RUSTUP_HOME": "/tmp/rustup",
-        "CARGO_HOME": "/tmp/cargo"
-      }
-    },
-    "buildCommand": "./build.sh"
+      "EXCHANGE_RATE_API_KEY": "7ed63c331cfb0a7ef831a95a"
+    }
   }
