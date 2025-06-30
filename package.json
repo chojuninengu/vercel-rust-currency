@@ -1,0 +1,8 @@
+{
+  "name": "vercel-rust-currency",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cargo build --release"
+  }
+} 

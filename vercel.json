@@ -1,15 +1,16 @@
 {
-    "version": 2,
-    "functions": {
-      "api/**/*.rs": {
-        "runtime": "vercel-rust@4.0.9"
-      }
-    },
-    "routes": [
-      { "src": "/api/currencies", "dest": "/api/currencies.rs" },
-      { "src": "/api/convert", "dest": "/api/convert.rs" }
-    ],
-    "env": {
-      "EXCHANGE_RATE_API_KEY": "7ed63c331cfb0a7ef831a95a"
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/**/*.rs",
+      "use": "@vercel/static"
     }
+  ],
+  "routes": [
+    { "src": "/api/currencies", "dest": "/api/currencies.rs" },
+    { "src": "/api/convert", "dest": "/api/convert.rs" }
+  ],
+  "env": {
+    "EXCHANGE_RATE_API_KEY": "7ed63c331cfb0a7ef831a95a"
   }
+}
