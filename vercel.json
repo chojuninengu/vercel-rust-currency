@@ -1,8 +1,17 @@
 {
+    "version": 2,
     "functions": {
       "api/**/*.rs": {
         "runtime": "vercel-rust@4.0.9"
       }
+    },
+    "routes": [
+      { "src": "/api/currencies", "dest": "/api/currencies" },
+      { "src": "/api/convert", "dest": "/api/convert" }
+    ],
+    "env": {
+      "RUSTUP_HOME": "/tmp/rustup",
+      "CARGO_HOME": "/tmp/cargo"
     },
     "build": {
       "env": {
